@@ -1,0 +1,17 @@
+$TTL 300
+@   IN  SOA ns1.server-45-159-115-148.da.direct. admin.mafiahome.com. (
+        2025110901 ; serial
+        3600       ; refresh
+        900        ; retry
+        1209600    ; expire
+        3600 )     ; minimum
+
+@   IN  NS  ns1.server-45-159-115-148.da.direct.
+@   IN  NS  ns2.server-45-159-115-148.da.direct.
+
+ns1 IN  A   45.159.115.148
+ns2 IN  A   45.159.115.148
+@   IN  A   45.159.115.148
+www IN  A   45.159.115.148
+*   IN  A   45.159.115.148
+

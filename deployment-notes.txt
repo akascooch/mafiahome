@@ -1,0 +1,50 @@
+Deployment & Infrastructure Timeline for mafiahome.com
+=====================================================
+
+1. Initial Zip & Upload
+   - Created initial archive using `Compress-Archive` because `zip` CLI was unavailable.
+   - Uploaded `mafiahome.zip` to the server with `pscp`; executed provided remote deployment script.
+   - First run failed mid-way (chown/nginx reload not executed); manually completed permission fixes and nginx reload.
+
+2. Project Audit & Static Export Conversion
+   - Inspected Next.js project; noted page used `Intl` and dynamic date. Added `getStaticProps` to precompute build date and set up `next/font` to avoid external CSS.
+   - Updated `next.config.js` to `output: 'export'` and disabled image optimizer.
+   - Locked ESLint versions compatible with Next 13; resolved lint warnings, ensured `npm run lint` and `npm run build` succeed.
+   - Generated static build (`npm run build`) producing `out/`; packaged only static assets into new zip.
+
+3. Clean Deployment of Static Build
+   - Replaced old archive with new static bundle; uploaded via `pscp` and extracted to `/var/www/mafiahome/html`.
+   - Set ownership (`www-data:www-data`) and tightened permissions; synced static build to `/var/www/html` for DirectAdmin proxy compatibility.
+   - Verified via `curl -I` that IP served expected HTML but domain still responded with old placeholder because of DNS.
+
+4. DNS Investigation & BIND Zone Setup
+   - Confirmed `mafiahome.com` lacked public DNS records; `dig` returned `SERVFAIL`.
+   - Configured BIND: created `/etc/bind/zones/db.mafiahome.com` with SOA, NS, A records (including wildcard) and updated `named.conf.local` to load zone.
+   - After cleaning malformed configs, restarted `named`; zone began serving authoritative answers (`dig @127.0.0.1 mafiahome.com A` -> `45.159.115.148`).
+   - Verified external resolution once registry updated nameservers to `ns1/ns2.server-45-159-115-148.da.direct`.
+
+5. HTTPS Enablement & Certbot
+   - Switched `/etc/apt/sources.list` mirror from `ru.archive` (timed out) to `archive.ubuntu.com`; ran `apt-get update`.
+   - `apt` install of nginx modules conflicted with DirectAdmin build; purged distro `nginx*` packages, then rebuilt DirectAdmin nginx via `/usr/local/directadmin/custombuild ./build nginx` to restore service.
+   - Obtained SoC: `certbot certonly --webroot -w /var/www/html -d mafiahome.com -d www.mafiahome.com` issued valid certificate under `/etc/letsencrypt/live/mafiahome.com/`.
+
+6. Final nginx Configuration
+   - Created `/etc/nginx/conf.d/mafiahome.conf` with two server blocks:
+       * HTTP: serves ACME challenges from `/var/www/html`, otherwise redirects to HTTPS canonical host.
+       * HTTPS: serves static site from `/var/www/mafiahome/html`, enables HSTS, cache headers, and reuses webroot for renewal.
+   - Reloaded nginx; verified with `openssl s_client -connect 45.159.115.148:443 -servername mafiahome.com` (certificate CN=mafiahome.com) and `curl -I https://mafiahome.com`.
+   - Removed temporary ACME test files.
+
+7. Renewal & Validation
+   - Confirmed `/etc/letsencrypt/renewal/mafiahome.com.conf` uses `/var/www/html` webroot.
+   - Ran `certbot renew --dry-run` successfully to validate automated renewals.
+
+8. Final Checks
+   - HTTP/HTTPS for both apex and www tested with `curl`.
+   - Static page renders correctly and shows updated timestamp; HTTPS enforces HSTS.
+
+Notes
+-----
+- DirectAdmin nginx rebuild is important after removing distro nginx packages.
+- For future updates, repeat static export (`npm run build`) and sync `/mafia-home/out` to `/var/www/mafiahome/html`; keep `/var/www/html/.well-known` intact for certbot.
+- Renewal is automated via system cron (Certbot default). Manual trigger: `certbot renew`.
