@@ -1,0 +1,68 @@
+name: Feature
+description: ایجاد یک قابلیت یا بهبود جدید
+labels: [feature]
+title: "[Feature] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        لطفاً اطلاعات کامل از ویژگی پیشنهادی را وارد کنید.
+  - type: input
+    id: summary
+    attributes:
+      label: خلاصه
+      description: شرح کوتاه از نیازمندی یا مشکل که این ویژگی حل می‌کند.
+      placeholder: "یک خلاصه کوتاه بنویسید"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: توضیحات جزئی
+      description: جزئیات بیشتری از ویژگی، جریان کاربر، نمودار یا لینک‌ها را اضافه کنید.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: معیارهای پذیرش
+      description: لیست معیارهای قابل تست که تکمیل ویژگی را تأیید می‌کنند.
+      placeholder: |
+        - [ ] سناریو ۱
+        - [ ] سناریو ۲
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: Definition of Done
+      description: مواردی که نشان می‌دهند کار به‌طور کامل تمام شده است (مستندات، تست‌ها و ...).
+      placeholder: |
+        - [ ] تست‌ها به‌روز شده‌اند
+        - [ ] مستندات به‌روز شده‌اند
+    validations:
+      required: true
+  - type: dropdown
+    id: estimate
+    attributes:
+      label: برآورد
+      description: تخمین زمانی یا امتیاز برای انجام کار.
+      options:
+        - 1
+        - 2
+        - 3
+        - 5
+        - 8
+        - 13
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: وابستگی‌ها
+      description: Issue یا سرویس‌های دیگری که روی این کار تأثیر دارند.
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: توضیحات تکمیلی
+      description: لینک‌های مرجع، دیاگرام یا نکاتی که باید هنگام انجام کار در نظر گرفته شود.
