@@ -48,3 +48,24 @@ Notes
 - DirectAdmin nginx rebuild is important after removing distro nginx packages.
 - For future updates, repeat static export (`npm run build`) and sync `/mafia-home/out` to `/var/www/mafiahome/html`; keep `/var/www/html/.well-known` intact for certbot.
 - Renewal is automated via system cron (Certbot default). Manual trigger: `certbot renew`.
+
+9. Repository Audit – 2025-11-12 (Superseded)
+   - Previous audit recorded the absence of the Next.js source tree and deployment tooling. Kept for historical reference only.
+
+10. Workspace Migration Validation – 2025-11-12
+    - Confirmed `mafia-home/` now contains full Next.js sources (`pages/`, `components/`, `lib/`, `public/`, `styles/`).
+    - Root `package.json` operates as an npm workspace; `CI=1 npm run build` succeeds from the repository root and produces the static output.
+    - `mafia-home/scripts/deploy.ps1` automates install → build → export → packaging → upload → activation into `/var/www/mafiahome/releases/<timestamp>`.
+    - Documentation (`docs/current-state.md`, `docs/project-structure.md`, `mafia-home/README.md`) has been aligned with the reinstated workflow.
+    - Next action: add `.github/workflows/` pipelines once SSH secrets are available so CI can trigger deployments.
+---
+
+۹. پایش مخزن – ۱۲ نوامبر ۲۰۲۵ (منسوخ)
+   - این بخش برای ثبت تاریخی وضعیت قبل از بازیابی کد نگه‌داری شده است و نبود دایرکتوری‌های Next.js را توضیح می‌دهد.
+
+۱۰. تأیید مهاجرت به workspace – ۱۲ نوامبر ۲۰۲۵
+    - اکنون مسیر `mafia-home/` شامل تمامی دایرکتوری‌های استاندارد Next.js (`pages/`، `components/`، `lib/`، `public/`، `styles/`) است.
+    - فایل `package.json` در ریشه به عنوان npm workspace عمل می‌کند و اجرای `CI=1 npm run build` از ریشه بدون خطا انجام می‌شود.
+    - اسکریپت `mafia-home/scripts/deploy.ps1` فرایند نصب → بیلد → اکسپورت → بسته‌بندی → آپلود → فعال‌سازی را تا مسیر `/var/www/mafiahome/releases/<timestamp>` خودکار می‌کند.
+    - مستندات (`docs/current-state.md`، `docs/project-structure.md`، `mafia-home/README.md`) با جریان جدید به‌روزرسانی شده‌اند.
+    - اقدام بعدی: پس از آماده شدن secretهای SSH، خطوط لولهٔ `.github/workflows/` را بسازید تا CI بتواند استقرار خودکار انجام دهد.
