@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "tsc --noEmit",
     "export": "next export",
-    "deploy": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy.ps1"
+    "deploy": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy.ps1",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node ./tests/unit/run-unit-tests.js",
+    "test:e2e": "node ./tests/e2e/run-playwright.js"
   },
   "dependencies": {
     "next": "13.5.7",

@@ -9,6 +9,7 @@
     "build": "npm --workspace mafia-home run build",
     "start": "npm --workspace mafia-home run start",
     "lint": "npm --workspace mafia-home run lint",
+    "test": "npm --workspace mafia-home run test",
     "export": "npm --workspace mafia-home run export",
     "deploy": "npm --workspace mafia-home run deploy"
   }
