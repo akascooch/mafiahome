@@ -7,3 +7,5 @@ mafia-home/.next/
 mafia-home/out/
 mafia-home/dist/
 build.log
+
+mafia-home/tsconfig.tsbuildinfo
