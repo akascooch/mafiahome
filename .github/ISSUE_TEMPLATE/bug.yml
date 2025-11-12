@@ -1,0 +1,46 @@
+name: Bug
+description: گزارش یک اشکال یا رفتار ناخواسته
+labels: [bug]
+title: "[Bug] "
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: خلاصه
+      description: توضیح کوتاه از باگ مشاهده شده.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: مراحل بازتولید
+      description: گام‌های دقیق برای بازتولید مشکل را شرح دهید.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: انتظار شما
+      description: رفتار مورد انتظار چیست؟
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: رفتار فعلی
+      description: رفتار فعلی سیستم را شرح دهید.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: محیط
+      description: اطلاعاتی مثل نسخه، مرورگر، سیستم‌عامل و ...
+  - type: textarea
+    id: attachments
+    attributes:
+      label: پیوست‌ها
+      description: لینک اسکرین‌شات یا لاگ‌های مرتبط را اضافه کنید.
