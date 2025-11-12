@@ -1,0 +1,9 @@
+node_modules/
+.mafiahome-env
+.next/
+out/
+dist/
+mafia-home/.next/
+mafia-home/out/
+mafia-home/dist/
+build.log
